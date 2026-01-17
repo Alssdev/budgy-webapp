@@ -1,0 +1,33 @@
+{
+  "name": "budgy-webapp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:unit": "vitest --project unit",
+    "test:nuxt": "vitest --project nuxt"
+  },
+  "dependencies": {
+    "@nuxt/eslint": "^1.12.1",
+    "@nuxt/test-utils": "^3.23.0",
+    "@primeuix/themes": "^2.0.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "eslint": "^9.39.2",
+    "nuxt": "^3.20.2",
+    "primevue": "^4.5.4",
+    "tailwindcss": "^4.1.18",
+    "vue": "^3.5.26",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@primevue/nuxt-module": "^4.5.4",
+    "@vue/test-utils": "^2.4.6",
+    "vitest": "^3.2.4"
+  }
+}
