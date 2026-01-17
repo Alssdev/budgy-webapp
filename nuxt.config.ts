@@ -11,12 +11,15 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
   modules: ['@nuxt/eslint', '@nuxt/test-utils', '@primevue/nuxt-module'],
+
   primevue: {
-    /* Configuration */
     options: {
       theme: {
+        preset: Aura,
         ripple: true,
-        preset: Aura
+        options: {
+          darkModeSelector: '.app-dark'
+        }
       }
     }
   },
