@@ -1,23 +1,19 @@
- 
 import { defineEventHandler, readBody, createError } from 'h3'
-import { Client, Databases, Permission, Role } from 'appwrite'
-import { getCurrentUser } from '../utils/auth'
-import { useRuntimeConfig } from '#imports'
+import { Permission, Role } from 'node-appwrite'
+import { createAdminClient } from '~/server/utils/appwrite'
 
 export default defineEventHandler(async (event) => {
   const { id } = event.context.params || {}
-  const user = await getCurrentUser(event)
+  const user = event.context.user
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+  
   const { name, color, icon } = await readBody<{ name?: string; color?: string; icon?: string }>(event)
-  const config = useRuntimeConfig()
-  const client = new Client()
-    .setEndpoint(config.public.appwriteEndpoint)
-    .setProject(config.public.appwriteProjectId)
-    // @ts-expect-error: setKey not in TS defs, required for server SDK API key
-    .setKey(config.private.appwriteApiKey)
-  const db = new Databases(client)
+  const { databases } = createAdminClient()
   let wallet
   try {
-    wallet = await db.getDocument('Budgy', 'wallets', id)
+    wallet = await databases.getDocument('Budgy', 'wallets', id)
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }
@@ -31,7 +27,7 @@ export default defineEventHandler(async (event) => {
   if (!Object.keys(updates).length) {
     throw createError({ statusCode: 400, statusMessage: 'Nothing to update' })
   }
-  const updated = await db.updateDocument(
+  const updated = await databases.updateDocument(
     'Budgy',
     'wallets',
     id,

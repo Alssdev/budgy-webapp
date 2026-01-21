@@ -1,20 +1,17 @@
  
 import { defineEventHandler, createError } from 'h3'
-import { Client, Databases, Query } from 'appwrite'
-import { getCurrentUser } from '../utils/auth'
-import { useRuntimeConfig } from '#imports'
+import { Query } from 'node-appwrite'
+import { createAdminClient } from '~/server/utils/appwrite'
 
 export default defineEventHandler(async (event) => {
-  const user = await getCurrentUser(event)
-  const config = useRuntimeConfig()
-  const client = new Client()
-    .setEndpoint(config.public.appwriteEndpoint)
-    .setProject(config.public.appwriteProjectId)
-    // @ts-expect-error: setKey not in TS defs, required for server SDK API key
-    .setKey(config.private.appwriteApiKey)
-  const db = new Databases(client)
+  const user = event.context.user
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+  
+  const { databases } = createAdminClient()
   try {
-    const result = await db.listDocuments('Budgy', 'wallets', [
+    const result = await databases.listDocuments('Budgy', 'wallets', [
       Query.equal('userId', [user.$id]),
       Query.equal('isDeleted', [false])
     ])

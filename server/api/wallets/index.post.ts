@@ -1,24 +1,20 @@
  
 import { defineEventHandler, readBody, createError } from 'h3'
-import { Client, Databases, Permission, Role } from 'appwrite'
-import { getCurrentUser } from '../utils/auth'
-import { useRuntimeConfig } from '#imports'
+import { Permission, Role } from 'node-appwrite'
+import { createAdminClient } from '~/server/utils/appwrite'
 
 export default defineEventHandler(async (event) => {
-  const user = await getCurrentUser(event)
+  const user = event.context.user
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
   const { name, color, icon } = await readBody<{ name: string; color: string; icon: string }>(event)
   if (!name || !color || !icon) {
     throw createError({ statusCode: 400, statusMessage: 'Missing wallet fields' })
   }
-  const config = useRuntimeConfig()
-  const client = new Client()
-    .setEndpoint(config.public.appwriteEndpoint)
-    .setProject(config.public.appwriteProjectId)
-    // @ts-expect-error: setKey not in TS defs, required for server SDK API key
-    .setKey(config.private.appwriteApiKey)
-  const db = new Databases(client)
+  const { databases } = createAdminClient()
   const now = new Date().toISOString()
-  const wallet = await db.createDocument(
+  const wallet = await databases.createDocument(
     'Budgy',
     'wallets',
     user.$id,

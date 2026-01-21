@@ -1,27 +1,24 @@
- 
 import { defineEventHandler, readBody, createError } from 'h3'
-import { Client, Databases, Permission, Role } from 'appwrite'
-import { getCurrentUser } from '../../../utils/auth'
-import { useRuntimeConfig } from '#imports'
+import { Permission, Role } from 'node-appwrite'
+import { createAdminClient } from '~/server/utils/appwrite'
 
 export default defineEventHandler(async (event) => {
   const { id: walletId } = event.context.params || {}
-  const user = await getCurrentUser(event)
+  const user = event.context.user
+  if (!user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+  
   const { type, amount, description } = await readBody<{ type: 'in' | 'out'; amount: number; description?: string }>(event)
   if (!type || typeof amount !== 'number') {
     throw createError({ statusCode: 400, statusMessage: 'Invalid transaction payload' })
   }
-  const config = useRuntimeConfig()
-  const client = new Client()
-    .setEndpoint(config.public.appwriteEndpoint)
-    .setProject(config.public.appwriteProjectId)
-    // @ts-expect-error: setKey not in TS defs, required for server SDK API key
-    .setKey(config.private.appwriteApiKey)
-  const db = new Databases(client)
+  
+  const { databases } = createAdminClient()
   // Fetch and verify wallet
   let wallet
   try {
-    wallet = await db.getDocument('Budgy', 'wallets', walletId)
+    wallet = await databases.getDocument('Budgy', 'wallets', walletId)
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }
@@ -31,11 +28,11 @@ export default defineEventHandler(async (event) => {
   const currentBalance = wallet.balance as number
   const newBalance = type === 'in' ? currentBalance + amount : currentBalance - amount
   // Start transaction
-  const tx = await db.createTransaction()
+  const tx = await databases.createTransaction()
   try {
     const now = new Date().toISOString()
     // Create transaction record
-    const record = await db.createDocument(
+    const record = await databases.createDocument(
       'Budgy',
       'transactions',
       user.$id,
@@ -44,7 +41,7 @@ export default defineEventHandler(async (event) => {
       tx.$id
     )
     // Update wallet balance
-    await db.updateDocument(
+    await databases.updateDocument(
       'Budgy',
       'wallets',
       walletId,
@@ -53,11 +50,11 @@ export default defineEventHandler(async (event) => {
       tx.$id
     )
     // Commit transaction
-    await db.updateTransaction(tx.$id, true)
+    await databases.updateTransaction(tx.$id, true)
     return record
   } catch {
     // Rollback on error
-    await db.updateTransaction(tx.$id, false)
+    await databases.updateTransaction(tx.$id, false)
     throw createError({ statusCode: 500, statusMessage: 'Transaction failed' })
   }
 })
