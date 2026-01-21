@@ -5,7 +5,17 @@
 ## 2.1 Backend Hosting
 - Use Nuxt 3 server routes under `server/api/...` for all wallet/transaction logic.
 
+**Auth Helper:**
+- Create `getCurrentUser(event)` helper to read the Appwrite session cookie, call `account.get()`, and return the authenticated `userId`, throwing 401 if unauthenticated.
+
 ## 2.2 Wallet CRUD Endpoints
+| Method   | Path                   | Action                                                                    |
+| -------- | ---------------------- | ------------------------------------------------------------------------- |
+| POST     | `/api/wallets`         | Create wallet (set `createdAt`, `userId`, grant per-row permissions)      |
+| GET      | `/api/wallets`         | List user’s non–soft‑deleted wallets                                      |
+| GET      | `/api/wallets/:id`     | Fetch one wallet (404 if not found or soft‑deleted)                       |
+| PUT      | `/api/wallets/:id`     | Update name/color/icon                                                    |
+| DELETE   | `/api/wallets/:id`     | Soft‑delete wallet: set `isDeleted = true` (don’t remove row)             |
 
 **Details:**
 - Add boolean `isDeleted` attribute to `wallets` (default `false`).

@@ -7,11 +7,15 @@
 - default to small components. prefer focused modules over god components
 - default to small files and diffs. avoid repo wide rewrites unless asked
 - use 2 space tab indent
+- before writing code, you have to show a plan to the user an wait for his confirmation.
 
 ## Don't
 - do not create custom css clases, use tailwindcss always.
 - do not hard code colors
 - do not add new heavy dependencies without approval
+- do not use TypeScript comment directives
+- do not use ESLint comment directives
+- do not read type definitions in node_modules/, instead, read docs.
 
 ## Commands
 ### Type check a single file by path
