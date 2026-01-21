@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true
     error.value = null
     try {
-      await account.createEmailPasswordSession(email, password)
+      await account.createEmailPasswordSession({ email, password })
       await fetchUser()
     } catch (err: unknown) {
       error.value = err instanceof Error ? err.message : 'Login failed'
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true
     error.value = null
     try {
-      await account.create('unique()', email, password, name)
+      await account.create({ userId: 'unique()', email, password, name })
       // Auto login after signup
       await login(email, password)
     } catch (err: unknown) {
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
     if (!account) return
 
     try {
-      await account.deleteSession('current')
+      await account.deleteSession({ sessionId: 'current' })
       user.value = null
     } catch (err: unknown) {
       console.error('Logout error:', err)
