@@ -11,7 +11,10 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "test:unit": "vitest --project unit",
-    "test:nuxt": "vitest --project nuxt"
+    "test:nuxt": "vitest --project nuxt",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.12.1",
@@ -29,9 +32,12 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@pinia/testing": "^1.0.3",
+    "@playwright/test": "^1.57.0",
     "@primevue/nuxt-module": "^4.5.4",
     "@types/node": "^25.0.9",
     "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.3.4",
     "vitest": "^3.2.4"
   }
 }

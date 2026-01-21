@@ -8,14 +8,16 @@ export default defineConfig({
       {
         test: {
           name: 'unit',
-          include: ['test/unit/*.{test,spec}.ts'],
-          environment: 'node',
+          include: ['test/unit/**/*.{test,spec}.ts'],
+          exclude: ['test/unit/components/**/*.{test,spec}.ts'],
+          environment: 'happy-dom',
+          setupFiles: ['test/unit/setup.ts'],
         },
       },
       await defineVitestProject({
         test: {
           name: 'nuxt',
-          include: ['test/nuxt/*.{test,spec}.ts'],
+          include: ['test/nuxt/*.{test,spec}.ts', 'test/unit/components/**/*.{test,spec}.ts'],
           environment: 'nuxt',
           environmentOptions: {
             nuxt: {

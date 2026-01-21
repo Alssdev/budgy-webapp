@@ -16,6 +16,7 @@
 - do not use TypeScript comment directives
 - do not use ESLint comment directives
 - do not read type definitions in node_modules/, instead, read docs.
+- do not use any as type in .ts files
 
 ## Commands
 ### Type check a single file by path

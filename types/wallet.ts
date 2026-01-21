@@ -7,6 +7,8 @@ export interface Wallet {
   currency: string
   userId: string
   isDeleted: boolean
+  color?: string
+  icon?: string
 }
 
 export interface WalletFormData {
