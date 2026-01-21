@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     public: {
       appwriteEndpoint: process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1',
       appwriteProjectId: process.env.APPWRITE_PROJECT_ID || ''
+    },
+    private: {
+      appwriteApiKey: process.env.APPWRITE_API_KEY || ''
     }
   },
 
