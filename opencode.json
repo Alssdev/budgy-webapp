@@ -3,7 +3,7 @@
   "mcp": {
     "appwrite-docs": {
       "type": "remote",
-      "enabled": true,
+      "enabled": false,
       "url": "https://mcp-for-docs.appwrite.io"
     },
     "appwrite": {
@@ -16,12 +16,17 @@
         "--users",
         "--messaging",
       ],
-      "enabled": true,
+      "enabled": false,
       "environment": {
         "APPWRITE_PROJECT_ID": "{env:APPWRITE_PROJECT_ID}",
         "APPWRITE_API_KEY": "{env:APPWRITE_API_KEY}",
         "APPWRITE_ENDPOINT": "{env:APPWRITE_ENDPOINT}"
       }
+    },
+    "primevue": {
+      "type": "local",
+      "enabled": true,
+      "command": ["npx", "-y", "@primevue/mcp"]
     }
   }
 }

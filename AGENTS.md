@@ -54,3 +54,12 @@ Ask first:
 ## When stuck
 - ask a clarifying question, propose a short plan, or open a draft PR with notes
 - do not push large speculative changes without confirmation
+
+## Nuxt stuff
+- auto imports are enabled. missing identifiers like useAppwrite are defined in other folders.
+
+## Appwrite
+- when creating collections, remeber to set the correct relations between collections.
+
+# UI/UX
+- mobile first
