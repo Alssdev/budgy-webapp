@@ -6,9 +6,9 @@ Internal TODO: Wallet Feature Execution Steps
 This checklist outlines the phases and tasks to implement the multi‑wallet feature.
 
 ## 1. Schema Definition
-- [ ] Create `wallets` collection with: id, userId, name, balance, color, icon, createdAt
-- [ ] Create `transactions` collection with: id, walletId, type, amount, description, timestamp, resultingBalance
-- [ ] Configure Appwrite permissions so users can only access their own wallets/transactions
+- [x] Create `wallets` collection with: id, userId, name, balance, color, icon, createdAt
+- [x] Create `transactions` collection with: id, walletId, type, amount, description, timestamp, resultingBalance
+- [x] Configure Appwrite permissions so users can only access their own wallets/transactions
 
 ## 2. Server Logic
 - [ ] Implement wallet CRUD endpoints/functions (create, update, delete)
