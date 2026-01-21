@@ -8,8 +8,9 @@
       <div class="flex items-center gap-3">
         <div
           :class="[
-            'flex h-12 w-12 items-center justify-center rounded-2xl text-xl text-white shadow-sm',
-            wallet.color || 'bg-slate-400'
+            'flex h-12 w-12 items-center justify-center rounded-2xl text-xl shadow-sm',
+            accent.bgClass,
+            accent.textClass
           ]"
         >
           <span v-if="wallet.icon">{{ wallet.icon }}</span>
@@ -41,6 +42,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['select'])
+
+const accent = computed(() => useWalletAccent(props.wallet?.color))
 
 const formattedBalance = computed(() => {
   const amount = Number(props.wallet.balance || 0)

@@ -32,5 +32,10 @@ This checklist outlines the phases and tasks to implement the multi‑wallet fea
 - [ ] Write unit tests for Pinia stores and composables
 - [ ] Add end-to-end or smoke tests for wallet creation and transaction flow
 
+## 7. App Pages
+- [ ] Scaffold wallet overview/list page (cards, selectors, navigation)
+- [ ] Create wallet detail page with header, transaction area, and new transaction form
+- [ ] Wire routes/navigation so wallets can be created/selected from the main flow
+
 ---
 _Generated as internal guide—no code yet._
