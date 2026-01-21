@@ -1,0 +1,34 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "appwrite-docs": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://mcp-for-docs.appwrite.io"
+    },
+    "appwrite": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-appwrite",
+        "--sites"
+      ],
+      "enabled": true,
+      "environment": {
+        "APPWRITE_PROJECT_ID": "{env:APPWRITE_PROJECT_ID}",
+        "APPWRITE_API_KEY": "{env:APPWRITE_API_KEY}",
+        "APPWRITE_ENDPOINT": "{env:APPWRITE_ENDPOINT}"
+      }
+    },
+    "clerk": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "-y",
+        "mcp-remote",
+        "https://mcp.clerk.com/mcp"
+      ]
+    }
+  }
+}
