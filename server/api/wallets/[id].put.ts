@@ -13,7 +13,11 @@ export default defineEventHandler(async (event) => {
   const { databases } = createAdminClient()
   let wallet
   try {
-    wallet = await databases.getDocument('Budgy', 'wallets', id)
+    wallet = await databases.getDocument({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      documentId: id
+    })
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }
@@ -27,16 +31,16 @@ export default defineEventHandler(async (event) => {
   if (!Object.keys(updates).length) {
     throw createError({ statusCode: 400, statusMessage: 'Nothing to update' })
   }
-  const updated = await databases.updateDocument(
-    'Budgy',
-    'wallets',
-    id,
-    updates,
-    [
+  const updated = await databases.updateDocument({
+    databaseId: 'Budgy',
+    collectionId: 'wallets',
+    documentId: id,
+    data: updates,
+    permissions: [
       Permission.read(Role.user(user.$id)),
       Permission.update(Role.user(user.$id)),
       Permission.delete(Role.user(user.$id))
     ]
-  )
+  })
   return updated
 })

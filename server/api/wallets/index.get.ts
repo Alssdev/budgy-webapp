@@ -11,10 +11,14 @@ export default defineEventHandler(async (event) => {
   
   const { databases } = createAdminClient()
   try {
-    const result = await databases.listDocuments('Budgy', 'wallets', [
-      Query.equal('userId', [user.$id]),
-      Query.equal('isDeleted', [false])
-    ])
+    const result = await databases.listDocuments({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      queries: [
+        Query.equal('userId', [user.$id]),
+        Query.equal('isDeleted', [false])
+      ]
+    })
     return result.documents
   } catch {
     throw createError({ statusCode: 500, statusMessage: 'Failed to list wallets' })

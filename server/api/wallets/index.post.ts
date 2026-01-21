@@ -14,16 +14,16 @@ export default defineEventHandler(async (event) => {
   }
   const { databases } = createAdminClient()
   const now = new Date().toISOString()
-  const wallet = await databases.createDocument(
-    'Budgy',
-    'wallets',
-    user.$id,
-    { userId: user.$id, name, balance: 0, color, icon, createdAt: now, isDeleted: false },
-    [
+  const wallet = await databases.createDocument({
+    databaseId: 'Budgy',
+    collectionId: 'wallets',
+    documentId: user.$id,
+    data: { userId: user.$id, name, balance: 0, color, icon, createdAt: now, isDeleted: false },
+    permissions: [
       Permission.read(Role.user(user.$id)),
       Permission.update(Role.user(user.$id)),
       Permission.delete(Role.user(user.$id))
     ]
-  )
+  })
   return wallet
 })

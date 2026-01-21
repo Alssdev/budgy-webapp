@@ -12,7 +12,11 @@ export default defineEventHandler(async (event) => {
   const { databases } = createAdminClient()
   let wallet
   try {
-    wallet = await databases.getDocument('Budgy', 'wallets', id)
+    wallet = await databases.getDocument({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      documentId: id
+    })
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }

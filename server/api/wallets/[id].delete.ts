@@ -12,23 +12,27 @@ export default defineEventHandler(async (event) => {
   const { databases } = createAdminClient()
   let wallet
   try {
-    wallet = await databases.getDocument('Budgy', 'wallets', id)
+    wallet = await databases.getDocument({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      documentId: id
+    })
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }
   if (wallet.userId !== user.$id || wallet.isDeleted) {
     throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
   }
-  const deleted = await databases.updateDocument(
-    'Budgy',
-    'wallets',
-    id,
-    { isDeleted: true },
-    [
+  const deleted = await databases.updateDocument({
+    databaseId: 'Budgy',
+    collectionId: 'wallets',
+    documentId: id,
+    data: { isDeleted: true },
+    permissions: [
       Permission.read(Role.user(user.$id)),
       Permission.update(Role.user(user.$id)),
       Permission.delete(Role.user(user.$id))
     ]
-  )
+  })
   return deleted
 })

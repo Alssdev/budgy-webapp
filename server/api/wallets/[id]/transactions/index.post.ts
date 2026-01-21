@@ -18,7 +18,11 @@ export default defineEventHandler(async (event) => {
   // Fetch and verify wallet
   let wallet
   try {
-    wallet = await databases.getDocument('Budgy', 'wallets', walletId)
+    wallet = await databases.getDocument({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      documentId: walletId
+    })
   } catch {
     throw createError({ statusCode: 404, statusMessage: 'Wallet not found' })
   }
@@ -32,23 +36,23 @@ export default defineEventHandler(async (event) => {
   try {
     const now = new Date().toISOString()
     // Create transaction record
-    const record = await databases.createDocument(
-      'Budgy',
-      'transactions',
-      user.$id,
-      { walletId, type, amount, description: description || '', timestamp: now, resultingBalance: newBalance },
-      [Permission.read(Role.user(user.$id))],
-      tx.$id
-    )
+    const record = await databases.createDocument({
+      databaseId: 'Budgy',
+      collectionId: 'transactions',
+      documentId: user.$id,
+      data: { walletId, type, amount, description: description || '', timestamp: now, resultingBalance: newBalance },
+      permissions: [Permission.read(Role.user(user.$id))],
+      transactionId: tx.$id
+    })
     // Update wallet balance
-    await databases.updateDocument(
-      'Budgy',
-      'wallets',
-      walletId,
-      { balance: newBalance },
-      [Permission.read(Role.user(user.$id)), Permission.update(Role.user(user.$id)), Permission.delete(Role.user(user.$id))],
-      tx.$id
-    )
+    await databases.updateDocument({
+      databaseId: 'Budgy',
+      collectionId: 'wallets',
+      documentId: walletId,
+      data: { balance: newBalance },
+      permissions: [Permission.read(Role.user(user.$id)), Permission.update(Role.user(user.$id)), Permission.delete(Role.user(user.$id))],
+      transactionId: tx.$id
+    })
     // Commit transaction
     await databases.updateTransaction(tx.$id, true)
     return record
