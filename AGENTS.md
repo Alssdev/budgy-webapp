@@ -50,7 +50,6 @@ Ask first:
 ## API docs
 - use the appwrite-docs MCP server to look up docs on Appwrite
 - use the appwrite MCP server to interact with Appwrite
-- use the clerk MCP server to look up docs on Clerk
 
 ## When stuck
 - ask a clarifying question, propose a short plan, or open a draft PR with notes

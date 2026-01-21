@@ -10,7 +10,14 @@ export default defineNuxtConfig({
   },
 
   devtools: { enabled: true },
-  modules: ['@nuxt/eslint', '@nuxt/test-utils', '@primevue/nuxt-module'],
+  modules: ['@nuxt/eslint', '@nuxt/test-utils', '@primevue/nuxt-module', '@pinia/nuxt'],
+
+  runtimeConfig: {
+    public: {
+      appwriteEndpoint: process.env.APPWRITE_ENDPOINT || 'https://cloud.appwrite.io/v1',
+      appwriteProjectId: process.env.APPWRITE_PROJECT_ID || ''
+    }
+  },
 
   primevue: {
     options: {

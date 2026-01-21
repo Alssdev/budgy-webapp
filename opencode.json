@@ -11,7 +11,10 @@
       "command": [
         "uvx",
         "mcp-server-appwrite",
-        "--sites"
+        "--sites",
+        "--databases",
+        "--users",
+        "--messaging",
       ],
       "enabled": true,
       "environment": {
@@ -19,16 +22,6 @@
         "APPWRITE_API_KEY": "{env:APPWRITE_API_KEY}",
         "APPWRITE_ENDPOINT": "{env:APPWRITE_ENDPOINT}"
       }
-    },
-    "clerk": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "-y",
-        "mcp-remote",
-        "https://mcp.clerk.com/mcp"
-      ]
     }
   }
 }
