@@ -1,52 +1,61 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-      <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
-      <form class="mt-8 space-y-6" @submit.prevent="handleSignin">
-        <div class="rounded-md shadow-sm -space-y-px">
-          <div>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-white via-slate-50 to-slate-100 px-4 py-12">
+    <div class="w-full max-w-sm">
+      <div class="bg-white rounded-[32px] border border-slate-200 shadow-[0_25px_60px_-25px_rgba(15,23,42,0.35)] p-8">
+        <h1 class="text-3xl font-semibold text-slate-900">Sign in</h1>
+
+        <p class="text-sm text-slate-500 mb-6">Please enter your details.</p>
+
+        <form class="space-y-5" @submit.prevent="handleSignin">
+          <div class="space-y-2">
+            <label class="text-sm font-semibold text-slate-700">Email address</label>
             <InputText
               v-model="email"
               type="email"
-              placeholder="Email address"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="you@example.com"
               required
+              fluid
             />
           </div>
-          <div>
+
+          <div class="space-y-2">
+            <label class="text-sm font-semibold text-slate-700">Password</label>
             <Password
               v-model="password"
-              placeholder="Password"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              placeholder="••••••••••"
+              toggle-mask
+              feedback
               required
+              fluid
             />
           </div>
-        </div>
 
-        <div v-if="authStore.error" class="text-red-600 text-sm">
-          {{ authStore.error }}
-        </div>
+          <div v-if="authStore.error" class="text-sm text-red-600">
+            {{ authStore.error }}
+          </div>
 
-        <div>
+          <div class="flex items-center justify-between text-sm text-slate-600">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500">
+              Remember me
+            </label>
+            <NuxtLink to="/forgot-password" class="font-semibold text-emerald-600 hover:text-emerald-500">Forgot password?</NuxtLink>
+          </div>
+
           <Button
             type="submit"
             :loading="authStore.isLoading"
-            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            fluid
           >
             Sign in
           </Button>
-        </div>
 
-        <div class="text-center">
-          <NuxtLink to="/signup" class="text-indigo-600 hover:text-indigo-500">
-            Don't have an account? Sign up
-          </NuxtLink>
-        </div>
-      </form>
+          <div class="text-center text-sm text-slate-500">
+            Don't have an account?
+            <NuxtLink to="/signup" class="font-semibold text-emerald-600 hover:text-emerald-500">Sign up</NuxtLink>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
