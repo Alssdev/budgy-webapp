@@ -2,6 +2,7 @@
 
 
 ## 1. Initialize SDK (Tutorial Step 3)
+- Use the `@appwrite/node` SDK for server utilities.
 - Create `server/utils/appwrite.ts` with two factory functions:
   - `createAdminClient()`: sets endpoint, project, and API key for server operations.
   - `createSessionClient(event)`: sets endpoint and project, reads session cookie, and calls `client.setSession()`.
@@ -14,7 +15,7 @@
 - Create `server/middleware/auth.ts`:
   - Call `createSessionClient(event)`, then `event.context.user = await account.get()`.
   - Silence errors if no session.
-- Extend H3 context types in `env.d.ts` to include `user?: Models.User<Preferences>`.
+- Create a new `env.d.ts` at project root and extend H3 context types to include `user?: Models.User<Preferences<any>>`.
 
 ## 4. Finalize & Testing (Step 9)
 - Verify full SSR auth flow: session setup, middleware, and protected routes.
